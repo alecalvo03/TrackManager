@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
 
+import java.io.IOException;
+
 public class MainActivity extends Activity {
 
     TextView response;
@@ -38,20 +40,18 @@ public class MainActivity extends Activity {
         buttonClear = (Button) findViewById(R.id.clearButton);
         response = (TextView) findViewById(R.id.responseTextView);
         gridLayout = findViewById(R.id.gridlayout);
-        System.out.println("pusi");
         btnGrid = new ToggleButton[4][4];
+        editTextAddress.setText("192.168.100.2");
+        editTextPort.setText("9090");
 
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 4; j++){
                 final int finalJ = j;
                 final int finalI = i;
                 btnGrid[i][j] = new ToggleButton(this);
-                System.out.println("pusi");
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(
                         GridLayout.spec(j,1),GridLayout.spec(i));
-                System.out.println("pusi");
                 gridLayout.addView(btnGrid[i][j], i);
-                System.out.println("yus");
                 btnGrid[i][j].setLayoutParams(params);
                 btnGrid[i][j].setOnClickListener(new OnClickListener() {
                     @Override
@@ -71,9 +71,13 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View arg0) {
-                myClient = new Client(editTextAddress.getText()
-                        .toString(), Integer.parseInt(editTextPort
-                        .getText().toString()), response);
+                try {
+                    myClient = new Client(editTextAddress.getText().toString(),
+                            Integer.parseInt(editTextPort.getText().toString()),
+                            response);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 myClient.execute();
             }
         });
