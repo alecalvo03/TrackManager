@@ -55,36 +55,44 @@
                   android:orientation="vertical" >
 
         <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@android:color/black"
                 android:textSize="@android:dimen/app_icon_size"
-                android:text="Edit the Track"
+                android:text="Track Editor"
                 />
 
-        <Button
-                android:id="@+id/startButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Set Starting Point" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:tools="http://schemas.android.com/tools"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal" >
 
-        <Button
-                android:id="@+id/clrButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Clear" />
+            <Button
+                    android:id="@+id/clrButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear" />
 
-        <Button
-                android:id="@+id/sendButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Send" />
+            <Button
+                    android:id="@+id/startButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Set Starting Point" />
+
+            <Button
+                    android:id="@+id/sendButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Send" />
+
+        </LinearLayout>
 
         <GridLayout
                 android:id="@+id/gridlayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingRight="12dp"
                 android:paddingLeft="12dp"
                 android:paddingTop="12dp"
@@ -92,6 +100,12 @@
                 android:columnCount="10"
                 android:rowCount="10">
         </GridLayout>
+
+        <Button
+                android:id="@+id/startbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start" />
 
     </LinearLayout>
 

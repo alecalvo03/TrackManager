@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 
     private TextView response;
     private EditText editTextAddress, editTextPort;
-    private Button buttonConnect, buttonClear, clrButton, startButton;
+    private Button buttonConnect, buttonClear, clrButton, startpointButton, sendButton;
     private GridLayout gridLayout;
     private ToggleButton test;
     private ToggleButton btnGrid[][];
@@ -106,6 +106,69 @@ public class MainActivity extends Activity {
         btnGrid[startcoord[0]][startcoord[1]].setBackground(btnGrid[startcoord[0]+1][0].getBackground());
     }
 
+    private boolean checkAdjacent (int i, int j){
+        System.out.println("Entra con " + i + " " + j);
+        int n = 0;
+        if (btnGrid[i+1][j].isChecked()) n++;
+        if (btnGrid[i-1][j].isChecked()) n++;
+        if (btnGrid[i][j+1].isChecked()) n++;
+        if (btnGrid[i][j-1].isChecked()) n++;
+        return n <= 2;
+    }
+
+    private int getDir(int i, int j, int prev){
+        if (btnGrid[i-1][j].isChecked()) if (prev != 0) return 1;
+        if (btnGrid[i+1][j].isChecked()) if (prev != 1) return 0;
+        if (btnGrid[i][j+1].isChecked()) if (prev != 2) return 3;
+        if (btnGrid[i][j-1].isChecked()) if (prev != 3) return 2;
+        return -1;
+    }
+
+    private String parseMatrix(){
+        StringBuilder toreturn = new StringBuilder();
+        boolean done = false;
+        if (startcoord[0] == -1)
+            return "Error: No hay punto de inicio.";
+        int i = startcoord[0];
+        int j = startcoord[1];
+        int prev = -1;
+
+        while (!done){
+            if (!checkAdjacent(i,j))
+                return "Error: Las pistas pueden tener un máximo de dos adyacentes.";
+            int dir = getDir(i,j,prev);
+            System.out.println("Dir: " + dir);
+            System.out.println("Prev: " + prev);
+            toreturn.append(i).append("-").append(j).append("-");
+            switch (dir){
+                case 0: //Abajo
+                    i++;
+                    break;
+                case 1: //Arriba
+                    i--;
+                    break;
+                case 2: //Izquierda
+                    j--;
+                    break;
+                case 3: //Derecha
+                    j++;
+                    break;
+            }
+            if (dir == -1){
+                toreturn.append(prev);
+                done = true;
+            }
+            if (i == startcoord[0] && j == startcoord[1] ){
+                toreturn.append(dir);
+                done = true;
+            } else {
+                prev = dir;
+                toreturn.append(dir).append(":");
+            }
+        }
+        return toreturn.toString();
+    }
+
     private void initGrid(int col, int row){
         btnGrid = new ToggleButton[col][row];
         for (int i = 0; i < col; i++){
@@ -140,11 +203,19 @@ public class MainActivity extends Activity {
                 });
             }
         }
-        startButton = findViewById(R.id.startButton);
-        startButton.setOnClickListener(new OnClickListener() {
+        startpointButton = findViewById(R.id.startButton);
+        startpointButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 toStart = true;
+            }
+        });
+
+        sendButton = findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println(parseMatrix());
             }
         });
 
